@@ -1,7 +1,10 @@
 from django.urls import path
-from . import views
+from .views import ClientCreate,index , RouteCreate, RoutesViewSet
 
-
+app_name='apis'
 urlpatterns = [
-    path("", views.index, name='index')
+    path("", index, name='index'),
+    path('client/create/',ClientCreate.as_view()),
+    path('route/create/', RouteCreate.as_view()),
+    path('routes/', RoutesViewSet.as_view({'get':'list'}))
 ]
