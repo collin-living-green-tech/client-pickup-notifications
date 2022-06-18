@@ -22,18 +22,7 @@ class Route(models.Model):
     Complete = models.BooleanField(default=False)
 
 
-class State(models.Model):
-    """
-    A table for holding the various states
-    during a Route
-    at LGT
-    ENROUTE
-    INDETERMINATE
-    STATIONARY
-    ARRIVING_SHORTLY
-    ARRIVED
-    """
-    Name=models.CharField(max_length=20)
+
 
 class RouteUpdate(models.Model):
     """
@@ -43,11 +32,21 @@ class RouteUpdate(models.Model):
     as well as the State, i.e. enroute , indeterminate, stationary, close , arrived
 
     """
+
+
     Route = models.ForeignKey(Route, on_delete=models.DO_NOTHING)
     Lat = models.FloatField()
     Long = models.FloatField()
     Stamp = models.DateTimeField(default=datetime.datetime.now())
-    State = models.ForeignKey(State, on_delete=models.DO_NOTHING)
+
+    # the five choices , enroute , at_LGT, indeterminate, stationary, arriving_shortly, arrived
+    STATE_CHOICES = ( (1,'at lgt'),
+                      (2,'enroute'),
+                      (3,'indeterminate'),
+                      (4,'stationary'),
+                      (5,'arriving shortly'),
+                      (6,'arrived'))
+    State = models.IntegerField(choices=STATE_CHOICES)
 
 
 
@@ -58,3 +57,15 @@ class Truck(models.Model):
 
 
 
+class DailyRoutes(models.Model):
+    """
+    Represents the list of
+    pickups that are scheduled
+    for the current date ONLY
+    ENTIRE TABLE IS DROPPED at the beginning of the
+    day , and repopulated with TODAYS routes only
+    only fields are , Order , and route foreign key
+    """
+
+    Order = models.IntegerField()
+    Route = models.ForeignKey(Route, on_delete=models.DO_NOTHING)
