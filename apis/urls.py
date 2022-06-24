@@ -6,6 +6,6 @@ urlpatterns = [
     path("", index, name='index'),
     path('client/create/',ClientCreate.as_view()),
     path('route/create/', RouteCreate.as_view()),
-    path('routes/', RoutesViewSet.as_view({'get':'list'})),
+    path('routes/', RoutesViewSet.as_view({'get':'list'}),name='routes'),
     path('routeupdate/create/', RouteUpdateCreate.as_view()),
 ]

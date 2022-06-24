@@ -21,6 +21,8 @@ class Route(models.Model):
     DestLong = models.FloatField()
     Complete = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.Client.Name + self.Client.City + str(self.Date)
 
 
 
@@ -48,9 +50,6 @@ class RouteUpdate(models.Model):
                       (6,'arrived'))
     State = models.IntegerField(choices=STATE_CHOICES)
 
-
-
-
 class Truck(models.Model):
     CurrentRoute = models.ForeignKey(Route, on_delete=models.DO_NOTHING)
     #DailyRoutes = models.ManyToManyField(Route)
@@ -67,5 +66,8 @@ class DailyRoutes(models.Model):
     only fields are , Order , and route foreign key
     """
 
-    Order = models.IntegerField()
+    Order = models.IntegerField(null=True)
     Route = models.ForeignKey(Route, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return  self.Route.__str__()

@@ -20,6 +20,9 @@ class Client(models.Model):
     ContactPreference = models.CharField(max_length=5)
     Notify = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.Name
+
 
 
 

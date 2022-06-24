@@ -5,6 +5,7 @@ from .models import Client
 from .serializers import ClientSerializer, RouteSerializer, RouteUpdateSerializer
 from django.http import HttpResponse
 from geopy.geocoders import Nominatim
+from pickups.models import DailyRoutes
 
 app = Nominatim(user_agent='tutorial')
 
@@ -47,8 +48,15 @@ class RouteCreate(mixins.CreateModelMixin, generics.GenericAPIView):
         route.DestLat = location.latitude
         route.DestLong = location.longitude
         route.save()
+        route_id = route.id
 
-        return HttpResponse("Route Created ?")
+        # if the route is for today,
+        # we add it to the DailyRoutes table
+        # and leave the order blank
+        order = len(DailyRoutes.objects.all())+1
+        dailyRoute = DailyRoutes(Order=order,Route=route)
+        dailyRoute.save()
+        return HttpResponse(route_id)
 
 
 class RoutesViewSet(viewsets.ModelViewSet):
