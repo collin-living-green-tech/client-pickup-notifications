@@ -8,7 +8,7 @@ class ClientSerializer( serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        fields = ( 'Name','Address','City','State','Zip','Email','Phone','ContactPreference','Notify')
+        fields = ( 'Name','Address','City','Email','Phone')
 
 
 class RouteSerializer( serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class RouteSerializer( serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('Client', 'Date','DestLat','DestLong')
+        fields = ('id','Client', 'Date','DestLat','DestLong')
 
 class RouteUpdateSerializer( serializers.ModelSerializer):
     Route = RouteSerializer()

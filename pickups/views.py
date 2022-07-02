@@ -67,7 +67,7 @@ def save_new_ordering(request):
             for lookup_id in ordered_ids:
                 lookup_id = lookup_id.replace('"','')
                 group = DailyRoutes.objects.get(id=lookup_id)
-                group.order = current_order
+                group.Order = current_order
                 group.save()
                 current_order += 1
 

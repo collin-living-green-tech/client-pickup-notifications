@@ -24,7 +24,20 @@ class ClientCreate( mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = ClientSerializer
 
     def post(self,request, *args,**kwargs):
-        return self.create(request, *args, **kwargs)
+        client = Client()
+        client.Name = request.POST['Name']
+        client.Address = request.POST['Address']
+        #client.City = request.POST['City']
+        #client.State = request.POST['State']
+        #client.Zip = request.POST['Zip']
+        client.Email = request.POST['Email']
+        client.Phone = request.POST['Phone']
+        client.Notify  = True
+        client.save()
+        client_id = client.id
+
+
+        return HttpResponse(client_id)
 
 
 class RouteCreate(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -32,30 +45,38 @@ class RouteCreate(mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = RouteSerializer
 
     def post(self, request, *args, **kwargs):
+        route_id  =int(request.POST['id'])
         client_id = request.POST['client_id']
         client = Client.objects.get(pk = client_id)
+        print(client)
         route = Route()
+        route.id = route_id
         route.Client =client
         route.Date = request.POST['date']
         # To do :
         # add logic to
         # here we resolve the physical
         # address to lat and long coordinates
-        locator = Nominatim(user_agent='client pickup notifications')
+
+        locator = Nominatim(user_agent='sojflskdmcpwodas0998887027ew')
+        print(locator)
         # build the address string
-        address = "{},{},{},{}".format(route.Client.Address, route.Client.City, route.Client.State, route.Client.Zip)
+        address = "{}".format(route.Client.Address)
+        print()
+        print()
+        print(address)
+        print()
         location = locator.geocode(address)
+
+        print()
+        print()
+        print(location)
         route.DestLat = location.latitude
         route.DestLong = location.longitude
         route.save()
         route_id = route.id
 
-        # if the route is for today,
-        # we add it to the DailyRoutes table
-        # and leave the order blank
-        order = len(DailyRoutes.objects.all())+1
-        dailyRoute = DailyRoutes(Order=order,Route=route)
-        dailyRoute.save()
+        
         return HttpResponse(route_id)
 
 
