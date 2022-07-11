@@ -22,7 +22,7 @@ class Route(models.Model):
     Complete = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.Client.Name + self.Client.City + str(self.Date)
+        return self.Client.Name  + str(self.Date)
 
 
 
@@ -36,7 +36,7 @@ class RouteUpdate(models.Model):
     """
 
 
-    Route = models.ForeignKey(Route, on_delete=models.DO_NOTHING)
+    Route = models.ForeignKey(Route, on_delete=models.CASCADE)
     Lat = models.FloatField()
     Long = models.FloatField()
     Stamp = models.DateTimeField(default=datetime.datetime.now())
@@ -51,7 +51,7 @@ class RouteUpdate(models.Model):
     State = models.IntegerField(choices=STATE_CHOICES)
 
 class Truck(models.Model):
-    CurrentRoute = models.ForeignKey(Route, on_delete=models.DO_NOTHING)
+    CurrentRoute = models.ForeignKey(Route, on_delete=models.CASCADE)
     #DailyRoutes = models.ManyToManyField(Route)
 
 
@@ -67,7 +67,16 @@ class DailyRoutes(models.Model):
     """
 
     Order = models.IntegerField(null=True)
-    Route = models.ForeignKey(Route, on_delete=models.DO_NOTHING)
+    Route = models.ForeignKey(Route, on_delete=models.CASCADE)
 
     def __str__(self):
         return  self.Route.__str__()
+
+
+class MovingAverage(models.Model):
+        """
+        holds the current moving avg in
+        miles per minute
+        """
+        mpm = models.FloatField()
+
