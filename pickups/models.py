@@ -42,12 +42,13 @@ class RouteUpdate(models.Model):
     Stamp = models.DateTimeField(default=datetime.datetime.now())
 
     # the five choices , enroute , at_LGT, indeterminate, stationary, arriving_shortly, arrived
-    STATE_CHOICES = ( (1,'at lgt'),
-                      (2,'enroute'),
-                      (3,'indeterminate'),
-                      (4,'stationary'),
-                      (5,'arriving shortly'),
-                      (6,'arrived'))
+    STATE_CHOICES = ( (1,'AT_ORIGIN'),
+                      (2,'ARRIVED'),
+                      (3,'ENROUTE'),
+                      (4,'INDETERMINATE'),
+                      (5,'STATIONARY'),
+                      (6,'ARRIVING_SHORTLY'))
+
     State = models.IntegerField(choices=STATE_CHOICES)
 
 class Truck(models.Model):

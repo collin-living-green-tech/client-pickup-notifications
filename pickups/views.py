@@ -1,10 +1,12 @@
+import datetime
+
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
-from .models import DailyRoutes
+from .models import DailyRoutes, Route
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from .forms import DailyRoutesForm
 
@@ -72,3 +74,49 @@ def save_new_ordering(request):
                 current_order += 1
 
         return redirect('apis:index')
+
+
+def test_cron():
+    """
+    just a method for testing
+    django_crontab.  Appends the time
+    to a file
+    """
+    with open('scheduled_op.txt','wa') as fp:
+        fp.write(str(datetime.datetime.now()))
+
+
+
+def NewDailyRoutes():
+    """
+    clears the previous DailyRoutes table
+    and repopulates it with
+    routes scheduled for current date, with no specific ordering
+    TO DO:
+    implement operator routeorder confirmation
+    notification
+    Returns:
+
+    """
+
+    DailyRoutes.objects.all().delete()
+
+    # filter routes by todays date
+    todays_routes = Route.objects.get(Date=datetime.date.today())
+
+    idx = 1
+    for route in todays_routes:
+        dr = DailyRoutes(idx,route)
+        dr.save()
+        idx+= 1
+
+    # TO DO: initialize RouteStats object
+
+
+
+
+
+
+
+
+

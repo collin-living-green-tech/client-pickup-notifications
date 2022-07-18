@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ClientCreate,index , RouteCreate, RoutesViewSet, RouteUpdateCreate
+from .views import ClientCreate,index , RouteCreate, RoutesViewSet, RouteUpdateCreate, start_day
 
 app_name='apis'
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     path('route/create/', RouteCreate.as_view()),
     path('routes/', RoutesViewSet.as_view({'get':'list'}),name='routes'),
     path('routeupdate/create/', RouteUpdateCreate.as_view()),
+    path('routes/newday/', start_day, name='start_day')
 ]
