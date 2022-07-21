@@ -63,7 +63,7 @@ class RouteCreate(mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = RouteSerializer
 
     def post(self, request, *args, **kwargs):
-        route_id  =int(request.POST['id'])
+        #route_id  =int(request.POST['id'])
         client_id = request.POST['client_id']
         client = Client.objects.get(pk = client_id)
 
@@ -73,15 +73,17 @@ class RouteCreate(mixins.CreateModelMixin, generics.GenericAPIView):
         # implement logic for route update
         # find by hubspot engagement id, if non exists
         # just create new route, otherwise it's an update
-        route = None
+        route = Route()
+        """
         try:
             route = Route.objects.get(pk = route_id)
         except Exception:
             route = Route()
+        """
 
 
 
-        route.id = route_id
+        #route.id = route_id
         route.Client =client
         route.Date = request.POST['date']
         # To do :

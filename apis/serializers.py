@@ -16,7 +16,7 @@ class RouteSerializer( serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('id','Client', 'Date','DestLat','DestLong')
+        fields = ('Client', 'Date','DestLat','DestLong')
 
 class RouteUpdateSerializer( serializers.ModelSerializer):
     Route = RouteSerializer()
